@@ -16,6 +16,8 @@ Python
 J'ai codé via python un pierre feuille ciseau en multijoueur
 
 On a mis le serveur python sur une de son machine virtuel donc maintenant via le langage de programation python je sais faire une application ou different client peuvent communiquer entre eux, ce sera utile pour nos futur projet
-![image](https://github.com/JulienMontesinos/ESSAIE2/assets/61452154/dff77dff-eb4d-407a-9eea-2b350e8f7513)
+![image]
+J'ai créé un jeu de pierre-papier-ciseaux qui inclut un code serveur écrit en Python, permettant aux joueurs sur différents ordinateurs de jouer ensemble via Internet.
+(https://github.com/JulienMontesinos/ESSAIE2/assets/61452154/dff77dff-eb4d-407a-9eea-2b350e8f7513)
 
 ```
