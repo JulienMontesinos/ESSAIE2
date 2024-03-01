@@ -4,11 +4,13 @@
 https://www.youtube.com/watch?v=_fx7FQ3SP0U&list=PLzMcBGfZo4-kR7Rh-7JCVDN8lm3Utumvq
 
 Serveur minecraft
-Context: la semaine dernière, j'ai travaillé sur le déploiement de machine virtuel dans GCP et j'ai installé l'applicatif pour un serveur minecraft 
+Context: La semaine dernière, j'étais occupé à déployer une machine virtuelle sur GCP et à y installer une application pour un serveur Minecraft.
 
-Ce que j'ai fait : jusqu' à présent, on a toujours besoin 4G de mémoire pour installer notre serveur minecraft. Et là on a fait un recherche sur internet et on a pensé a modifier la valeur tick-time du fichier propriété et maintenant on a besoin que de 1024Mo
-on a réussi de ajouter les scripts startup et shutdown qui sont pour le but de démarrer le serveur en même temps que notre VM démarre dans notre VM, mais malheureusement on a pas réussi à faire fonctionner ces deux scripts. On va continuer à faire des recherches
-On n'a plus testé notre buckup dans un vrai cas d'usage. Mais avec les simples tests qu' on a fait, on pense que c'est réussi
+Ce que j'ai fait : Jusqu'à présent, pour déployer notre serveur Minecraft, nous étions confrontés à une contrainte nécessitant systématiquement 4 Go de mémoire. nous avons opté pour des machines virtuelles de spécifications supérieures, qui sont généralement beaucoup plus coûteuses. Cependant, après une période de recherche approfondie, nous avons découvert que le problème pouvait être résolu simplement en modifiant une valeur dans le fichier de propriétés du serveur. En ajustant le paramètre "tick-time" dans ce document,le véritable besoin en mémoire pour notre serveur Minecraft s'est avéré être de seulement 1024 Mo. Nous avons réussi à réduire la mémoire requise à seulement 1024 Mo.
+
+Nous avons élaboré des scripts de démarrage (startup) et d'arrêt (shutdown) et les avons intégrés à notre machine virtuelle dans le but de synchroniser le lancement de notre serveur avec celui de la VM. Cependant, malgré nos efforts, nous n'avons pas encore réussi à les faire fonctionner correctement. Nous allons continuer de poursuivre nos recherches pour résoudre ce problème.
+
+Nous n'avons pas encore eu l'occasion de tester notre solution de sauvegarde dans un contexte réel d'utilisation. Néanmoins, d'après les tests préliminaires que nous avons effectués, nous sommes optimistes quant à son succès.
 
 Python 
 J'ai codé via python un pierre feuille ciseau en multijoueur
