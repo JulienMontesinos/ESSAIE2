@@ -1,1 +1,36 @@
-https://www.youtube.com/watch?v=_fx7FQ3SP0U&list=PLzMcBGfZo4-kR7Rh-7JCVDN8lm3Utumvq
+import pygame
+from network import Network
+from player import Player
+
+width = 500
+height = 500
+win = pygame.display.set_mode((width, height))
+pygame.display.set_caption("Client")
+
+def redrawWindow(win,player, player2):
+    win.fill((255,255,255))
+    player.draw(win)
+    player2.draw(win)
+    pygame.display.update()
+
+def main():
+    run = True
+    n = Network()
+    p = n.getP()
+    clock = pygame.time.Clock()
+
+    while run:
+        clock.tick(60)
+        p2 = n.send(p)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+                pygame.quit()
+
+        p.move()
+        print ("P1", p)
+        print ("P2", p2)
+        redrawWindow(win, p, p2)
+
+main()
