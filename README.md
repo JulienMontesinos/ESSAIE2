@@ -1,22 +1,62 @@
 # ESSAIE2
 
 ```
-https://www.youtube.com/watch?v=_fx7FQ3SP0U&list=PLzMcBGfZo4-kR7Rh-7JCVDN8lm3Utumvq
+import socket
+from _thread import *
+from player import Player
+import pickle
 
-Serveur minecraft
-Context: La semaine dernière, j'étais occupé à déployer une machine virtuelle sur GCP et à y installer une application pour un serveur Minecraft.
+server = "100.118.201.175"
+port = 5555
 
-Ce que j'ai fait : Jusqu'à présent, pour déployer notre serveur Minecraft, nous étions confrontés à une contrainte nécessitant systématiquement 4 Go de mémoire. nous avons opté pour des machines virtuelles de spécifications supérieures, qui sont généralement beaucoup plus coûteuses. Cependant, après une période de recherche approfondie, nous avons découvert que le problème pouvait être résolu simplement en modifiant une valeur dans le fichier de propriétés du serveur. En ajustant le paramètre "tick-time" dans ce document,le véritable besoin en mémoire pour notre serveur Minecraft s'est avéré être de seulement 1024 Mo. Nous avons réussi à réduire la mémoire requise à seulement 1024 Mo.
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-Nous avons élaboré des scripts de démarrage (startup) et d'arrêt (shutdown) et les avons intégrés à notre machine virtuelle dans le but de synchroniser le lancement de notre serveur avec celui de la VM. Cependant, malgré nos efforts, nous n'avons pas encore réussi à les faire fonctionner correctement. Nous allons continuer de poursuivre nos recherches pour résoudre ce problème.
+try:
+    s.bind((server, port))
+except socket.error as e:
+    str(e)
 
-Nous n'avons pas encore eu l'occasion de tester notre solution de sauvegarde dans un contexte réel d'utilisation. Néanmoins, d'après les tests préliminaires que nous avons effectués, nous sommes optimistes quant à son succès.
+s.listen(2)
+print("Waiting for a connection, Server Started")
 
-Python 
-J'ai codé via python un pierre feuille ciseau en multijoueur
 
-On a mis le serveur python sur une de son machine virtuel donc maintenant via le langage de programation python je sais faire une application ou different client peuvent communiquer entre eux, ce sera utile pour nos futur projet
-![image]
-J'ai créé un jeu de pierre-papier-ciseaux qui inclut un code serveur écrit en Python, permettant aux joueurs sur différents ordinateurs de jouer ensemble via Internet.
+players = [Player(0,0,50,50,(255,0,0)), Player(100,100, 50,50, (0,0,255))]
+
+def threaded_client(conn, player):
+    conn.send(pickle.dumps(players[player]))
+    reply = ""
+    while True:
+        try:
+            data = pickle.loads(conn.recv(2048))
+            players[player] = data
+
+            if not data:
+                print("Disconnected")
+                if player == 1:
+                    del players[0]
+                    print("c est moi")
+                else:
+                    del players[1]
+                    print("hello")
+                break
+            else:
+                if player == 1:
+                    reply = players[0]
+                else:
+                    reply = players[1]
+            conn.sendall(pickle.dumps(reply))
+        except:
+            break
+
+    print("Lost connection")
+    conn.close()
+
+currentPlayer = 0
+while True:
+    conn, addr = s.accept()
+    print("Connected to:", addr)
+
+    start_new_thread(threaded_client, (conn, currentPlayer))
+    currentPlayer += 1
 
 ```
